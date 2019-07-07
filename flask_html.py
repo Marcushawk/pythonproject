@@ -1,4 +1,5 @@
 from flask import render_template, request
+from flask import Flask
 import numpy as np # we will use this later, so import it now
 import sqlite3
 import matplotlib.pyplot as plt
@@ -6,7 +7,6 @@ import numpy as np
 from bokeh.layouts import row
 from bokeh.io import output_file, show
 from bokeh.plotting import figure	
-from app import app
 from bokeh.embed import components
 def setup():
 	#output_file("blah.png")
@@ -98,13 +98,15 @@ def setup():
 	array_thingy = [p1,p2]
 	return array_thingy
 
+app = Flask(__name__)
+
 @app.route('/')
 def index():
     z = setup()
     script, div = components(z[0])
     variable = request.args.get('template_name')
-    return render_template("html_temp.html", script = script, div = div)
+    return render_template("html_template.html", script = script, div = div)
     return variable
 def about():
-    return render_template("html_temp.html")
+    return render_template("html_template.html")
     
